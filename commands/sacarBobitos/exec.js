@@ -1,5 +1,6 @@
-module.exports = async (interaction, _repository, client) => {
+module.exports = async (interaction, repository, client) => {
   try {
+    const { utilsRepository } = repository
     const guilds = await client.guilds.fetch()
     const guildsFetched = await Promise.allSettled(guilds.map(guild => guild.fetch()))
     const channelsGeneral = await Promise.allSettled(guildsFetched.map(guild => guild.value.channels.fetch()))
@@ -16,11 +17,14 @@ module.exports = async (interaction, _repository, client) => {
       .map(channel => channel.members.map(member => member).flat())
       .filter(members => members.length > 0)
       .flat()
-    const bobito = bobitos.sort(() => 0.5 - Math.random()).slice(0, 1)[0]
-    bobito.voice.disconnect()
+
+    const bobitosMapped = bobitos.map(bobito => bobito.user.username)
+    const bobito = utilsRepository.getRandomItem(bobitosMapped)
+    const bobitoMember = bobitos.find(bobitoM => bobitoM.user.username === bobito)
+    bobitoMember.voice.disconnect()
     interaction.deferReply()
     interaction.deleteReply()
-    interaction.channel.send({ content: `Estan sacando bobitos, cierto ${bobito.displayName}` })
+    interaction.channel.send({ content: `Estan sacando bobitos, cierto ${bobitoMember.displayName}` })
   } catch (error) {
     console.error(error)
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })

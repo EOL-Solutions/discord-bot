@@ -5,7 +5,8 @@ const clientEvents = require('./client-events/index')
 const {
   usersRepository,
   configurationsRepository,
-  nicknamesRepository
+  nicknamesRepository,
+  utilsRepository
 } = require('./repository/index')
 
 const {
@@ -14,10 +15,13 @@ const {
   nicknamesImplementation
 } = require('./database/index')
 
+const utilsImplementation = require('./utils/index')
+
 const repositories = {
   usersRepository: usersRepository(usersImplementation),
   configurationsRepository: configurationsRepository(configurationsImplementation),
-  nicknamesRepository: nicknamesRepository(nicknamesImplementation)
+  nicknamesRepository: nicknamesRepository(nicknamesImplementation),
+  utilsRepository: utilsRepository(utilsImplementation)
 }
 
 clientEvents(repositories)

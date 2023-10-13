@@ -1,6 +1,6 @@
 module.exports = async (interaction, repository, client) => {
   try {
-    const { configurationsRepository } = repository
+    const { configurationsRepository, utilsRepository } = repository
     const { value } = await configurationsRepository.findConfigurationByField('timeout-time')
     let total = 1000 * 60
     const time = Number(interaction.options.getString('time'))
@@ -26,11 +26,13 @@ module.exports = async (interaction, repository, client) => {
       .map(channel => channel.members.map(member => member).flat())
       .filter(members => members.length > 0)
       .flat()
-    const bobito = bobitos.sort(() => 0.5 - Math.random()).slice(0, 1)[0]
-    await bobito.disableCommunicationUntil(new Date(Date.now() + total))
+    const bobitosMapped = bobitos.map(bobito => bobito.user.username)
+    const bobito = utilsRepository.getRandomItem(bobitosMapped)
+    const bobitoMember = bobitos.find(bobitoM => bobitoM.user.username === bobito)
+    await bobitoMember.disableCommunicationUntil(new Date(Date.now() + total))
     interaction.deferReply()
     interaction.deleteReply()
-    interaction.channel.send({ content: `Estan timeando bobitos, cierto ${bobito.displayName}` })
+    interaction.channel.send({ content: `Estan timeando bobitos, cierto ${bobitoMember.displayName}` })
   } catch (error) {
     console.error(error)
     return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
