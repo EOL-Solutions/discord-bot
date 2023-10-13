@@ -3,7 +3,7 @@ module.exports = (repo) => {
   const findUserByUsername = async (username) => repo.findUserByUsername(username)
   const findAllUsers = async () => repo.findAllUsers()
   const insertNewUser = async (user) => repo.insertNewUser(user)
-  const deleteUserByID = async (id) => repo.deleteUser(id)
+  const deleteUserByID = async (id) => repo.deleteUserByID(id)
 
   return {
     findUserByID,

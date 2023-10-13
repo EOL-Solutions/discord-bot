@@ -8,7 +8,7 @@ const mutearBobitos = require('./mutearBobitos/index')
 const deafearBobitos = require('./deafearBobitos/index')
 const timearBobitos = require('./timearBobitos/index')
 
-exports.commands = {
+module.exports = {
   getPoolCommand,
   addPoolCommand,
   createPoolCommand,

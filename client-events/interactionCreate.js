@@ -5,7 +5,7 @@ module.exports = (repository) => {
   const event = async (interaction) => {
     if (!interaction.isCommand()) return
 
-    const command = commands.find(({data}) => data.name === interaction.commandName)
+    const command = Object.values(commands).find(({data}) => data.name === interaction.commandName)
     if (!command) return
 
     try {

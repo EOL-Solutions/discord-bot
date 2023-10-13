@@ -11,7 +11,7 @@ module.exports = async (interaction, repository) => {
 
     let content = '{\n  "nicknames": [\n'
     for (const nick of nicks) {
-      content += `    ${nick}\n`
+      content += `    ${nick.nickname}\n`
     }
     content += '  ]\n}\n'
 
