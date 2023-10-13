@@ -65,6 +65,7 @@ async function initPool () {
 
   for (const username of usernames) {
     const user = members.find(member => member.user.username === username)
+    console.log(user)
     if (!user) continue
     if (user.user.bot) continue
     if (user.user.username === 'kalevin') continue
@@ -78,6 +79,7 @@ async function initPool () {
     }
   }
 }
+
 async function updateCommands(rest, commands) {
   console.log('Started refreshing application (/) commands.')
   await rest.put(Routes.applicationCommands(client.user.id), { body: commands })

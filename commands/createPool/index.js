@@ -8,6 +8,10 @@ module.exports = {
     .addUserOption(option =>
       option.setName('user')
         .setDescription('User to create pool (please look at username)')
-        .setRequired(true)),
+        .setRequired(true))
+    .addStringOption(option =>
+      option.setName('nickname')
+        .setDescription('Nickname to add to pool (please look at username)')
+        .setMaxLength(31)),
   exec: createPool
 }

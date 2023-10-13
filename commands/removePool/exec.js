@@ -1,19 +1,26 @@
-const fs = require('fs')
-
-module.exports = (interaction, data) => {
+module.exports = async (interaction, repository) => {
   const user = interaction.options.getUser('user')
+  const { usersRepository, nicknamesRepository } = repository
 
   if (!user) {
     interaction.reply({ content: '`Missing arguments`', ephemeral: true })
     return
   }
 
-  if (!data[user.username]) {
+  const userFromDB = await usersRepository.findUserByUsername(user.username)
+  if (!userFromDB) {
     interaction.reply({ content: '`User not found`', ephemeral: true })
     return
   }
 
-  delete data[user.username]
-  fs.writeFileSync('./pool.json', JSON.stringify(data, null, 2))
+  const nicknames = await nicknamesRepository.findNicknamesByUserID(userFromDB.id)
+  if (!nicknames.length) {
+    interaction.reply({ content: '`No nicknames found`', ephemeral: true })
+    return
+  }
+
+  await nicknamesRepository.deleteNicknamesByUserID(userFromDB.id)
+  await usersRepository.deleteUserByID(userFromDB.id)
+
   interaction.reply({ content: `\`User ${user.username} removed\``, ephemeral: true })
 }

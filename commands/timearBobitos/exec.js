@@ -1,6 +1,18 @@
-const fs = require('fs')
+module.exports = async (interaction, _repository, client) => {
+  try {
 
-module.exports = (interaction, _data, client, config) => {
+    const channels = client
+      .channels
+      .cache
+      .filter(channel => channel.isVoiceBased())
+
+    const channelsFromFetch = await Promise.allSettled(channels.map(channel => channel.fetch()))
+    console.log(channelsFromFetch)
+  } catch (error) {
+    console.error(error)
+    return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+  }
+  /*
   const time = Number(interaction.options.getString('time')) === 0 ? 1 : Number(interaction.options.getString('time'))
   if (isNaN(time)) {
     return interaction.reply({ content: 'El tiempo debe ser un número, bobito', ephemeral: true })
@@ -11,12 +23,6 @@ module.exports = (interaction, _data, client, config) => {
 
   const total = time > 0 ? Math.floor(time * 60 * 1000) : Math.floor(Number(config["timeout-time"]) * 60 * 1000)
 
-  const channels = client
-    .channels
-    .cache
-    .filter(channel => channel.isVoiceBased())
-
-  Promise.allSettled(channels.map(channel => channel.fetch()))
     .then(channels => {
       const bobitos = []
       bobitos.push(
@@ -43,4 +49,5 @@ module.exports = (interaction, _data, client, config) => {
         })
     })
     .catch(console.error)
+  */
 }

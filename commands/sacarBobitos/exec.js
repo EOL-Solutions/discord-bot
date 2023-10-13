@@ -1,10 +1,17 @@
-module.exports = (interaction, _data, client) => {
-  const channels = client
-    .channels
-    .cache
-    .filter(channel => channel.isVoiceBased())
+module.exports = async (interaction, _repository, client) => {
+  try {
+    const channels = client
+      .channels
+      .cache
+      .filter(channel => channel.isVoiceBased())
 
-  Promise.allSettled(channels.map(channel => channel.fetch()))
+    const channelsFromFetch = await Promise.allSettled(channels.map(channel => channel.fetch()))
+    console.log(channelsFromFetch)
+  } catch (error) {
+    console.error(error)
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+  }
+  /*
     .then(channels => {
       const bobitos = []
       bobitos.push(
@@ -23,4 +30,5 @@ module.exports = (interaction, _data, client) => {
       interaction.channel.send({ content: `Estan sacando bobitos, cierto ${bobito.displayName}` })
     })
     .catch(console.error)
+  */
 }
