@@ -8,6 +8,7 @@ const mutearBobitos = require('./mutearBobitos/index')
 const deafearBobitos = require('./deafearBobitos/index')
 const timearBobitos = require('./timearBobitos/index')
 const changeDisplayNames = require('./changeDisplayNames/index')
+const changeConfig = require('./configDefaultValues/index')
 
 module.exports = {
   getPoolCommand,
@@ -19,5 +20,6 @@ module.exports = {
   mutearBobitos,
   deafearBobitos,
   timearBobitos,
-  changeDisplayNames
+  changeDisplayNames,
+  changeConfig
 }
