@@ -1,4 +1,3 @@
-const { client } = require('../../client')
 module.exports = async (interaction, repository) => {
   try {
     const key = interaction.options.getString('key')
