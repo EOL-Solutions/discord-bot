@@ -18,7 +18,7 @@ module.exports = (_repositories) => {
           await textChannel.send(`Convencion de cacorros: ${newChannel.members.map(member => member.displayName).join(', ')}`)
           const event = await scheduledEvents.create({
             name: 'Convencion de cacorros',
-            scheduledStartTime: Date.now(),
+            scheduledStartTime: Date.now() + 1000 * 30,
             privacyLevel: 2,
             entityType: 2,
             description: `${newChannel.members.map(member => member.displayName).join(', ')} estan en convencion`,
