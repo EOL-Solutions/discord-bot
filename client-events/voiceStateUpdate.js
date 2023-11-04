@@ -1,6 +1,6 @@
 const TARGET_CHANNEL_ID = '1116736418358755400'
 const TEXT_CHANNEL_ID = '752741501586505738'
-const MINIMUM_MEMBER_COUNT = 1
+const MINIMUM_MEMBER_COUNT = 3
 let started = false
 
 module.exports = (_repositories) => {
