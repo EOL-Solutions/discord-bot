@@ -17,7 +17,7 @@ module.exports = (_repositories) => {
         await textChannel.send(`Convencion de cacorros: ${newChannel.members.map(member => member.displayName).join(', ')}`)
         const event = await scheduledEvents.create({
           name: 'Convencion de cacorros',
-          scheduledStartTime: new Date(Date.now()),
+          scheduledStartTime: Date.now(),
           privacyLevel: 2,
           entityType: 2,
           description: `${newChannel.members.map(member => member.displayName).join(', ')} estan en convencion`,
@@ -28,14 +28,16 @@ module.exports = (_repositories) => {
       }
     } else if (oldChannel !== null && oldChannel.id === TARGET_CHANNEL_ID) { // user left the channel
       if (oldChannel.members.size < MINIMUM_MEMBER_COUNT) {
+        if (started) {
+          const { channels, scheduledEvents } = oldGuild
+          const textChannel = await channels.cache.get(TEXT_CHANNEL_ID)
+          await textChannel.send('Convencion de cacorros terminada')
+          const events = await scheduledEvents.fetch()
+          events.forEach(async event => {
+            if (event.creator.bot) { await event.delete() }
+          })
+        }
         started = false
-        const { channels, scheduledEvents } = oldGuild
-        const textChannel = await channels.cache.get(TEXT_CHANNEL_ID)
-        await textChannel.send('Convencion de cacorros terminada')
-        const events = await scheduledEvents.fetch()
-        events.forEach(async event => {
-          if (event.creator.bot) { await event.delete() }
-        })
       }
     }
   }
